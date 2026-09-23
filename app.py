@@ -45,7 +45,7 @@ if uploaded_file is not None:
     image.thumbnail((400, 400))
     st.image(image, caption="Uploaded Image", width="stretch")
 
-     pred_class, pred_idx, probs = learn.predict(image)
+    pred_class, pred_idx, probs = learn.predict(image)
 
     st.subheader("Prediction")
     st.write(f"**{pred_class}**  ({probs[pred_idx]:.4f})")
