@@ -7,7 +7,7 @@ import urllib.request
 # --- Configuration ---
 MODEL_FILENAME = "nature_model.pkl"
 # Replace this URL with your actual Hugging Face model URL
-HF_MODEL_URL = "https://huggingface.co/diana1space/nature-classifier-model/resolve/main/nature_model.pkl""
+HF_MODEL_URL = "https://huggingface.co/diana1space/nature-classifier-model/resolve/main/nature_model.pkl"
 
 # --- Download the model if it doesn't exist ---
 if not os.path.exists(MODEL_FILENAME):
