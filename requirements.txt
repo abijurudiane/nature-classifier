@@ -1,5 +1,5 @@
 fastai==2.8.7
 streamlit
-torch
-torchvision
+torch==2.10.0+cu128
+torchvision==0.25.0+cu128
 pillow
