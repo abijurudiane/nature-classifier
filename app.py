@@ -41,11 +41,12 @@ uploaded_file = st.file_uploader(
 )
 
 if uploaded_file is not None:
-    image = PIL.Image.open(uploaded_file)
+    image = PIL.Image.open(uploaded_file).convert("RGB")
     image.thumbnail((400, 400))
     st.image(image, caption="Uploaded Image", width="stretch")
 
-    pred_class, pred_idx, probs = learn.predict(image)
+    uploaded_file.seek(0)
+    pred_class, pred_idx, probs = learn.predict(uploaded_file)
 
     st.subheader("Prediction")
     st.write(f"**{pred_class}**  ({probs[pred_idx]:.4f})")
