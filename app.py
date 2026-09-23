@@ -41,12 +41,15 @@ uploaded_file = st.file_uploader(
 )
 
 if uploaded_file is not None:
-    image = PIL.Image.open(uploaded_file).convert("RGB")
-    image.thumbnail((400, 400))
-    st.image(image, caption="Uploaded Image", width="stretch")
+    image_bytes = uploaded_file.getvalue()
 
-    uploaded_file.seek(0)
-    pred_class, pred_idx, probs = learn.predict(uploaded_file)
+    # Show the uploaded image in the UI
+    preview_image = PIL.Image.open(uploaded_file).convert("RGB")
+    preview_image.thumbnail((400, 400))
+    st.image(preview_image, caption="Uploaded Image", width="stretch")
+
+    # Predict using raw bytes — fastai accepts bytes directly
+    pred_class, pred_idx, probs = learn.predict(image_bytes)
 
     st.subheader("Prediction")
     st.write(f"**{pred_class}**  ({probs[pred_idx]:.4f})")
