@@ -1,5 +1,5 @@
 import streamlit as st
-from fastai.vision.all import load_learner, PILImage
+from fastai.vision.all import load_learner
 import PIL
 import os
 import urllib.request
@@ -41,15 +41,17 @@ uploaded_file = st.file_uploader(
 )
 
 if uploaded_file is not None:
-    image_bytes = uploaded_file.getvalue()
-
-    # Show the uploaded image in the UI
     preview_image = PIL.Image.open(uploaded_file).convert("RGB")
     preview_image.thumbnail((400, 400))
     st.image(preview_image, caption="Uploaded Image", width="stretch")
 
-    # Predict using raw bytes — fastai accepts bytes directly
-    pred_class, pred_idx, probs = learn.predict(image_bytes)
+    temp_path = "temp_upload.jpg"
+    with open(temp_path, "wb") as f:
+        f.write(uploaded_file.getvalue())
+
+    pred_class, pred_idx, probs = learn.predict(temp_path)
+
+    os.remove(temp_path)
 
     st.subheader("Prediction")
     st.write(f"**{pred_class}**  ({probs[pred_idx]:.4f})")
