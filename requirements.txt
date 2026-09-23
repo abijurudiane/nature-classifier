@@ -3,3 +3,4 @@ streamlit
 torch==2.10.0
 torchvision==0.25.0
 pillow
+psutil
