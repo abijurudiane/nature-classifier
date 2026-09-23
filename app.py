@@ -49,7 +49,7 @@ uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png
 
 if uploaded_file is not None:
     image = PIL.Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", width='content')
+    st.image(image, caption="Uploaded Image", width="content")
 
     # Run prediction
     pil_img = PILImage.create(image)
