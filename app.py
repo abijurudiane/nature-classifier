@@ -47,7 +47,7 @@ except Exception as e:
 st.title("Nature Classifier 🐦🐼🐨")
 st.write("Upload an image and I'll classify it as a bird, reptile, mammal, forest, or aquatic scene.")
 
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"], max_bytes=5 * 1024 *1024)
+uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
     image = PIL.Image.open(uploaded_file)
