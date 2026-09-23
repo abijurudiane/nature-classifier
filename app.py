@@ -8,17 +8,14 @@ import urllib.request
 MODEL_FILENAME = "nature_model.pkl"
 HF_MODEL_URL = "https://huggingface.co/diana1space/nature-classifier-model/resolve/main/nature_model.pkl"
 
-# --- Delete any old (possibly broken) file ---
-if os.path.exists(MODEL_FILENAME):
-    os.remove(MODEL_FILENAME)
-
-# --- Download the model fresh ---
-with st.spinner("Downloading model from Hugging Face... this may take a moment."):
-    try:
-        urllib.request.urlretrieve(HF_MODEL_URL, MODEL_FILENAME)
-    except Exception as e:
-        st.error(f"Failed to download the model: {e}")
-        st.stop()
+# --- Download the model if it doesn't exist yet ---
+if not os.path.exists(MODEL_FILENAME):
+    with st.spinner("Downloading model from Hugging Face... this may take a moment."):
+        try:
+            urllib.request.urlretrieve(HF_MODEL_URL, MODEL_FILENAME)
+        except Exception as e:
+            st.error(f"Failed to download the model: {e}")
+            st.stop()
 
 # --- Safety check: is it a real pickle or HTML? ---
 with open(MODEL_FILENAME, "rb") as f:
@@ -34,9 +31,13 @@ if first_bytes.startswith(b"<"):
     st.write(f"URL was: {HF_MODEL_URL}")
     st.stop()
 
-# --- Load the model ---
+# --- Load the model ONCE and cache it in memory ---
+@st.cache_resource
+def load_my_model():
+    return load_learner(MODEL_FILENAME)
+
 try:
-    learn = load_learner(MODEL_FILENAME)
+    learn = load_my_model()
 except Exception as e:
     st.error(f"Failed to load the model: {e}")
     st.stop()
