@@ -59,7 +59,7 @@ if uploaded_file is not None:
     st.image(image, caption="Uploaded Image", width="stretch")
 
     # Before prediction
-     memory_percent = psutil.virtual_memory().percent
+    memory_percent = psutil.virtual_memory().percent
     if memory_percent > 85:
     st.error("App is low on memory. Please try again in a moment.")
     st.stop()
