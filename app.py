@@ -61,8 +61,9 @@ if uploaded_file is not None:
     # Before prediction
     memory_percent = psutil.virtual_memory().percent
     if memory_percent > 85:
-    st.error("App is low on memory. Please try again in a moment.")
-    st.stop()
+      st.error("App is low on memory. Please try again in a moment.")
+      st.stop()
+        
     pred_class, pred_idx, probs = learn.predict(pil_img)
 
     # Run prediction
