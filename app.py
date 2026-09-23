@@ -3,6 +3,7 @@ from fastai.vision.all import load_learner, PILImage
 import PIL
 import os
 import urllib.request
+import psutil
 
 # --- Configuration ---
 MODEL_FILENAME = "nature_model.pkl"
@@ -46,11 +47,23 @@ except Exception as e:
 st.title("Nature Classifier 🐦🐼🐨")
 st.write("Upload an image and I'll classify it as a bird, reptile, mammal, forest, or aquatic scene.")
 
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"], max_bytes=5 * 1024 *1024)
 
 if uploaded_file is not None:
     image = PIL.Image.open(uploaded_file)
+
+    #resize the image to reduce the memory
+    max_size = (400, 400)
+    image.thumbnail(max_size)
+    
     st.image(image, caption="Uploaded Image", width="stretch")
+
+    # Before prediction
+     memory_percent = psutil.virtual_memory().percent
+    if memory_percent > 85:
+    st.error("App is low on memory. Please try again in a moment.")
+    st.stop()
+    pred_class, pred_idx, probs = learn.predict(pil_img)
 
     # Run prediction
     pil_img = PILImage.create(image)
