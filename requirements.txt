@@ -1,5 +1,5 @@
 fastai==2.7.19
-fastcore==1.7.29
+fasttransform
 torch==2.6.0
 torchvision==0.21.0
 streamlit
